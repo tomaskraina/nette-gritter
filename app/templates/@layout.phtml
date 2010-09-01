@@ -47,29 +47,29 @@
 			error: '/error.png'
 		};
 
-		// zobrazeni Gritter notifikace
+		{if empty($flashes)}
+		// zobrazeni uvodni Gritter notifikace
 		$.netteGritter.add({
 			title: 'Gritter',
 			text: 'Notifications works!',
 			type: 'success'
 		});
-	});
-	</script>
-</head>
+		{/if}
 
-<body>
-	{foreach $flashes as $flash}
-	<div class="flash {$flash->type}">{$flash->message}</div>
-	<script>
-	$(document).ready(function() {
+		{foreach $flashes as $flash}
+		// zobrazeni flash messages
 		$.netteGritter.add({
 			title: {= $flash->title ? $flash->title : String::capitalize($flash->type) },
 			text: {$flash->message},
 			type: {$flash->type}
 		});
+		{/foreach}
 	});
 	</script>
-	{/foreach}
+</head>
+
+<body>
+	{foreach $flashes as $flash}<div class="flash {$flash->type}">{$flash->message}</div>{/foreach}
 
 	{include #content}
 </body>
