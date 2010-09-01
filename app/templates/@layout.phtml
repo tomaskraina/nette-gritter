@@ -1,0 +1,76 @@
+{**
+ * My Application layout template.
+ *
+ * @copyright  Copyright (c) 2010 John Doe
+ * @package    MyApplication
+ *
+ * @param string   $basePath web base path
+ * @param string   $robots   tell robots how to index the content of a page (optinal)
+ * @param array    $flashes  flash messages
+ *}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+	<meta name="description" content="Nette Framework web application skeleton">
+	<meta name="robots" content="{$robots}" n:ifset="$robots">
+
+	<title>Nette Application Skeleton</title>
+
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/screen.css" type="text/css">
+	<link rel="stylesheet" media="print" href="{$basePath}/css/print.css" type="text/css">
+	<link rel="shortcut icon" href="{$basePath}/favicon.ico" type="image/x-icon">
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>
+
+	<!-- Gritter files -->
+	<link rel="stylesheet" media="screen,projection,tv" href="{$basePath}/css/jquery.gritter.css" type="text/css">
+	<script src="{$basePath}/js/jquery.gritter.js"></script>
+	<script src="{$basePath}/js/jquery.nette-gritter.js"></script>
+
+	<!-- jquery.nette.js must be loaded after nette-gritter plugin -->
+	<script type="text/javascript" src="{$basePath}/js/jquery.nette.js"></script>
+
+	<script>
+	$(document).ready(function() {
+		// skryti standartnich flash messages
+		$(".flash").hide();
+
+		// configuration
+		$.netteGritter.images = {
+			imgDir: "{!$basePath}/images/icons",
+			success: '/success.png',
+			info: '/info.png',
+			warning: '/warning.png',
+			error: '/error.png'
+		};
+
+		// zobrazeni Gritter notifikace
+		$.netteGritter.add({
+			title: 'Gritter',
+			text: 'Notifications works!',
+			type: 'success'
+		});
+	});
+	</script>
+</head>
+
+<body>
+	{foreach $flashes as $flash}
+	<div class="flash {$flash->type}">{$flash->message}</div>
+	<script>
+	$(document).ready(function() {
+		$.netteGritter.add({
+			title: {= $flash->title ? $flash->title : String::capitalize($flash->type) },
+			text: {$flash->message},
+			type: {$flash->type}
+		});
+	});
+	</script>
+	{/foreach}
+
+	{include #content}
+</body>
+</html>
