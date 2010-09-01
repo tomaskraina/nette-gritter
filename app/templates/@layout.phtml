@@ -54,16 +54,16 @@
 			text: 'Notifications works!',
 			type: 'success'
 		});
-		{/if}
-
-		{foreach $flashes as $flash}
+		{else}
 		// zobrazeni flash messages
+		{foreach $flashes as $flash}
 		$.netteGritter.add({
 			title: {= $flash->title ? $flash->title : String::capitalize($flash->type) },
 			text: {$flash->message},
 			type: {$flash->type}
 		});
 		{/foreach}
+		{/if}
 	});
 	</script>
 </head>
